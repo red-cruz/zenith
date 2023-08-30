@@ -19,7 +19,6 @@ class SubCategoryFactory extends Factory
     {
         return [
             'name' => fake('en_PH')->company(),
-            'category_id' => Category::all('id')->random(),
         ];
     }
 }
