@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
+use App\Models\SubCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +18,16 @@ class ProductFactory extends Factory
      */
     public function definition(): array
     {
+        $category = Category::all('id')->random();
         return [
-            //
+            'name' => fake('en_PH')->company(),
+            'brand' => fake('en_PH')->company(),
+            'description' => fake('en_PH')->realText(),
+            'quantity' => fake()->randomNumber(),
+            'price' => fake()->randomFloat(2),
+            'prev_price' => fake()->randomFloat(2),
+            'category_id' => $category,
+            'subcategory_id' => SubCategory::select('id')->where('id', $category)->get()->random()
         ];
     }
 }
