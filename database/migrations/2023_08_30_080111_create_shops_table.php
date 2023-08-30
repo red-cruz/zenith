@@ -12,8 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('shops', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+          $table->id();
+          $table->foreignId('user_id')->constrained();
+          $table->text('description');
+          $table->string('name');
+          $table->string('pfp_url')->default('shop-profile.png');
+          $table->string('cover_url')->default('shop-cover.png');
+          $table->timestamps();
         });
     }
 
