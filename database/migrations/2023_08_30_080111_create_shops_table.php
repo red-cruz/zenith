@@ -15,6 +15,7 @@ return new class () extends Migration {
             $table->foreignId('user_id')->constrained();
             $table->longText('description');
             $table->string('name');
+            $table->foreignId('address_id')->constrained();
             $table->string('pfp_url')->default('shop-profile.png');
             $table->string('cover_url')->default('shop-cover.png');
             $table->timestamps();

@@ -23,6 +23,7 @@ return new class () extends Migration {
             $table->string('status')->default('offline');
             // $table->string('google_id_token')->nullable();
             $table->string('pfp_url')->nullable();
+            $table->foreignId('address_id')->constrained();
             $table->rememberToken();
             $table->timestamps();
         });
