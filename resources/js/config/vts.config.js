@@ -54,7 +54,7 @@ Vts.setDefaults({
                 errorResponse?.statusText ||
                 "Oops, sorry about that. An unknown error occurred.";
             let message = errorData;
-            let errors = errorData?.errors || {};
+            let errors = errorData?.validation_errors || {};
             let errMsg = "";
             title = errorData?.title || errorData?.name || title;
             message = errorData?.message || message;

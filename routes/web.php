@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -23,7 +24,7 @@ Route::middleware(['guest'])->group(function () {
     Route::get('/login', function () {
         return Inertia::render('Auth/login', ['testdata' => 'd']);
     })->name('login');
-    
+    Route::post('/login', [AuthController::class, 'login']);
 });
 
 
@@ -31,6 +32,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/', function () {
         return Inertia::render('MyHome', ['testdata' => 'd']);
     });
+    Route::get('/logout', [AuthController::class, 'logout']);
 });
 
 Route::get('/cart', [CartController::class, 'getCartProducts']);

@@ -80,6 +80,10 @@ import { onMounted } from "vue";
 
 defineProps({ visible: Boolean, testdata: String });
 onMounted(() => {
-    new Vts("login-form");
+    new Vts("login-form", {
+        ajax: {
+            success: () => window.location.reload(),
+        },
+    });
 });
 </script>

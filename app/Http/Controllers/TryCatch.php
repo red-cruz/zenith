@@ -32,7 +32,6 @@ class TryCatch extends Controller
               'validation_errors' => $err->errors()
             ], 422);
         } catch(\Illuminate\Auth\Access\AuthorizationException $err) {
-            dd($err);
             return $err->response();
         } catch (\Throwable $th) {
             /**
