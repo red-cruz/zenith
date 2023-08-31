@@ -6,9 +6,15 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Inertia\Response as InsertiaResponse;
 
 class AuthController extends Controller
 {
+    public function index(): InsertiaResponse
+    {
+        return Inertia::render('Auth/login', ['testdata' => 'd']);
+    }
+
     public function login(Request $request)
     {
         try {
