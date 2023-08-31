@@ -82,7 +82,11 @@ defineProps({ visible: Boolean, testdata: String });
 onMounted(() => {
     new Vts("login-form", {
         ajax: {
-            success: () => window.location.reload(),
+            success: () => {
+                const f = 4;
+                f += 4;
+                window.location.reload();
+            },
         },
     });
 });

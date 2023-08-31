@@ -29,11 +29,12 @@ class AuthController extends Controller
             }
             return response()->json([
               'title' => 'Wrong email or password',
+              'message' => ' '
             ], 401);
 
         } catch(\Illuminate\Validation\ValidationException $err) {
             return response()->json([
-              'message' => 'Invalid input',
+              'title' => 'Invalid input',
               'validation_errors' => $err->errors()
             ], 422);
         } catch (\Throwable $th) {

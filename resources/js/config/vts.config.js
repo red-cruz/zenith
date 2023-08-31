@@ -21,6 +21,7 @@ Vts.setDefaults({
             // Disable the submit button to prevent the user from submitting the form multiple times.
             form.querySelector('[type="submit"]').disabled = true;
             // Show a loading modal while the request is being processed
+
             Swal.fire({
                 title: "Saving...",
                 icon: "info",
@@ -38,7 +39,6 @@ Vts.setDefaults({
         },
         success: (data, response, form) => {
             // Handle successful response
-
             const isDataObj = typeof data === "object";
             const title = isDataObj
                 ? data.title || "Success" // Fallback to default title if not provided
@@ -58,51 +58,61 @@ Vts.setDefaults({
             form.classList.remove("was-validated");
             form.reset();
         },
-        error: (errorData, errorResponse, form) => {
-            let title =
-                errorResponse?.statusText ||
-                "Oops, sorry about that. An unknown error occurred.";
+        error: function (errorData, errorResponse, form) {
+            // Handle error response
+            let title = errorResponse?.statusText || "Error"; // Default error title
             let message = errorData;
-            let errors =
-                errorData?.validation_errors || // can come from the response json from server
-                {};
-            let errMsg = "";
-            title =
-                errorData?.title || // can come from the response json from server
-                errorData?.name || // can be whatever the name of error that was thrown from the submit function
-                title;
-            message =
-                errorData?.message || // can come from the response json from server
-                message;
 
+            console.log(arguments);
+
+            // Check if errorData is an object with relevant properties
+            if (typeof errorData === "object") {
+                title =
+                    errorData.title || // title property from server response
+                    errorData.name || // the name of the error thrown
+                    title;
+                message =
+                    errorData.stack || // get the error stack from the thrown error
+                    errorData.message || // message property from server response
+                    message;
+            }
+
+            let errMsg = "";
+            let errors = errorData?.validation_errors || {}; // validation errors from server
+            // Construct error message for display
             for (const err in errors) {
                 errMsg += `${errors[err]}<br/>`;
             }
 
-            if (title === "AbortError")
-                Swal.close(); // Close loading modal if request was aborted
-            else
-                Swal.fire({
-                    title: title,
-                    html: errMsg,
-                    icon: "error",
-                    // showCancelButton: true, // for debugging
-                    cancelButtonText: "View Error",
-                }).then((result) => {
-                    if (result.dismiss === Swal.DismissReason.cancel) {
-                        // Open a new tab to display error details
-                        var newWindow = window.open();
-                        if (newWindow) {
-                            // Display error details in the new tab
-                            if (typeof message === "string")
-                                if (message.startsWith("<!DOCTYPE html>")) {
-                                    newWindow.document.write(message);
-                                    newWindow.stop();
-                                } else
-                                    newWindow.document.body.outerHTML = message;
+            // close swal if aborted
+            if (title === "AbortError") {
+                Swal.close();
+                return;
+            }
+
+            // Display error message
+            Swal.fire({
+                title: title,
+                html: errMsg || message,
+                icon: "error",
+                showCancelButton: true,
+                cancelButtonText: "View Error",
+            }).then((result) => {
+                if (result.dismiss === Swal.DismissReason.cancel) {
+                    // Open a new tab to display error details
+                    var newWindow = window.open();
+                    if (newWindow) {
+                        if (typeof message === "string") {
+                            if (message.startsWith("<!DOCTYPE html>")) {
+                                newWindow.document.write(message);
+                                newWindow.stop();
+                            } else {
+                                newWindow.document.body.outerHTML = message;
+                            }
                         }
                     }
-                });
+                }
+            });
         },
         complete: (form) => {
             form.querySelector('[type="submit"]').disabled = false;
