@@ -24,4 +24,5 @@ Route::get('/', function () {
 });
 
 Route::get('/cart', [CartController::class, 'getCartProducts']);
-Route::post('/cart:create', [CartController::class, 'create']);
+Route::post('/cart', [CartController::class, 'upsert']);
+Route::delete('/cart/{cart}', [CartController::class, 'delete']);

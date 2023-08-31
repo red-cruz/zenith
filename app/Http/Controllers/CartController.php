@@ -15,7 +15,7 @@ class CartController extends Controller
         ]);
     }
 
-    public function create(Request $request): JsonResponse
+    public function upsert(Request $request): JsonResponse
     {
         return TryCatch::input(function () use ($request): JsonResponse {
             $validated = $request->validate([
@@ -23,16 +23,29 @@ class CartController extends Controller
               'quantity' => ['required', 'integer'],
             ]);
 
-            $cart = new Cart();
-            $cart->user_id = 1;
-            $cart->product_id = $validated['product_id'];
-            $cart->quantity = $validated['quantity'];
-            $cart->save();
+            $cart = Cart::updateOrCreate(
+                [
+                  'user_id' => 1,
+                  'product_id' => $validated['product_id']
+                ],
+                [
+                  'user_id' => 1,
+                  'quantity' => $validated['quantity']
+                ]
+            );
 
             return response()->json([
               'message' => 'Successfully added',
               'cart' => $cart
             ]);
         });
+    }
+
+    public function delete(Cart $cart): JsonResponse
+    {
+        $cart->delete();
+        return response()->json([
+          'cart_id' => $cart->id
+        ]);
     }
 }
