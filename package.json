@@ -6,6 +6,7 @@
         "build": "vite build"
     },
     "devDependencies": {
+        "@mdi/font": "^7.2.96",
         "@vitejs/plugin-vue": "^4.3.4",
         "axios": "^1.1.2",
         "laravel-vite-plugin": "^0.8.0",
@@ -13,6 +14,7 @@
     },
     "dependencies": {
         "@inertiajs/vue3": "^1.0.11",
+        "sweetalert2": "^11.7.27",
         "vts.js": "^1.0.0-beta.3",
         "vue": "^3.3.4",
         "vuetify": "^3.3.14"

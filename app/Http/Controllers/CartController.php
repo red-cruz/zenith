@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class CartController extends Controller
 {
@@ -43,9 +45,18 @@ class CartController extends Controller
 
     public function delete(Cart $cart): JsonResponse
     {
-        $cart->delete();
-        return response()->json([
-          'cart_id' => $cart->id
-        ]);
+        return TryCatch::input(function () use ($cart) {
+            // Gate::authorize('delete-cart', $cart);
+            $response = Gate::inspect('delete-cart', $cart);
+
+            if ($response->denied()) {
+                dd($response);
+                throw new AuthorizationException($response->message());
+            }
+            $cart->delete();
+            return response()->json([
+              'cart_id' => $cart->id
+            ]);
+        });
     }
 }
