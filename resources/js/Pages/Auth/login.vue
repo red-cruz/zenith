@@ -17,6 +17,7 @@
                 <v-text-field
                     type="email"
                     name="email"
+                    autocomplete="username"
                     density="compact"
                     placeholder="Email address"
                     prepend-inner-icon="mdi-email-outline"
@@ -40,6 +41,7 @@
 
                 <v-text-field
                     name="password"
+                    autocomplete="current-password"
                     :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
                     :type="visible ? 'text' : 'password'"
                     density="compact"
@@ -76,12 +78,33 @@
 </template>
 <script setup>
 import Vts from "vts.js";
+import Swal from "sweetalert2";
 import { onMounted } from "vue";
 
 defineProps({ visible: Boolean, testdata: String });
 onMounted(() => {
     new Vts("login-form", {
         ajax: {
+            beforeSend: (requestInit, abortController, form) => {
+                // Disable the submit button to prevent the user from submitting the form multiple times.
+                form.querySelector('[type="submit"]').disabled = true;
+                // Show a loading modal while the request is being processed
+
+                Swal.fire({
+                    title: "Logging in...",
+                    icon: "info",
+                    text: "Please wait.",
+                    // allowOutsideClick: false,
+                    showCancelButton: true,
+                    showConfirmButton: false,
+                    cancelButtonText: "Cancel",
+                }).then((result) => {
+                    // If the user cancels the request, abort the Ajax request.
+                    if (result.dismiss === Swal.DismissReason.cancel) {
+                        abortController.abort();
+                    }
+                });
+            },
             success: () => {
                 const f = 4;
                 f += 4;

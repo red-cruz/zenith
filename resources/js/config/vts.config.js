@@ -19,14 +19,15 @@ Vts.setDefaults({
         },
         beforeSend: (requestInit, abortController, form) => {
             // Disable the submit button to prevent the user from submitting the form multiple times.
-            form.querySelector('[type="submit"]').disabled = true;
-            // Show a loading modal while the request is being processed
+            const submitBtn = form.querySelector('[type="submit"]');
+            if (submitBtn) submitBtn.disabled = true;
 
+            // Show a loading modal while the request is being processed
             Swal.fire({
                 title: "Saving...",
                 icon: "info",
                 text: "Please wait.",
-                // allowOutsideClick: false,
+                allowOutsideClick: false,
                 showCancelButton: true,
                 showConfirmButton: false,
                 cancelButtonText: "Cancel",
@@ -60,28 +61,34 @@ Vts.setDefaults({
         },
         error: function (errorData, errorResponse, form) {
             // Handle error response
-            let title = errorResponse?.statusText || "Error"; // Default error title
+            let title = errorResponse
+                ? `${errorResponse.statusText}:  ${errorResponse.status}`
+                : "Error";
             let message = errorData;
 
             console.log(arguments);
 
-            // Check if errorData is an object with relevant properties
+            // Check if errorData is an object
             if (typeof errorData === "object") {
-                title =
-                    errorData.title || // title property from server response
-                    errorData.name || // the name of the error thrown
-                    title;
-                message =
-                    errorData.stack || // get the error stack from the thrown error
-                    errorData.message || // message property from server response
-                    message;
-            }
+                if (errorResponse) {
+                    // errorData is from server
+                    title = errorData.title || errorResponse.statusText;
+                    message = errorData.message || "";
 
-            let errMsg = "";
-            let errors = errorData?.validation_errors || {}; // validation errors from server
-            // Construct error message for display
-            for (const err in errors) {
-                errMsg += `${errors[err]}<br/>`;
+                    // for validation errors from server
+                    const validationErrors = errorData.validation_errors;
+                    if (typeof validationErrors === "object") {
+                        // Construct error message for display
+                        message = "";
+                        for (const err in validationErrors) {
+                            message += `${validationErrors[err]}<br/>`;
+                        }
+                    }
+                } else {
+                    // errorData is an Error/Exception
+                    title = errorData.name || title;
+                    message = errorData.stack || errorData.message || message;
+                }
             }
 
             // close swal if aborted
@@ -90,19 +97,29 @@ Vts.setDefaults({
                 return;
             }
 
+            let html = message;
+            let showCancelButton = message ? true : false;
+            // making sure that the message is not an html
+            if (typeof message === "string") {
+                if (message.startsWith("<!DOCTYPE html>")) {
+                    html = "";
+                    showCancelButton = true;
+                }
+            }
+
             // Display error message
             Swal.fire({
-                title: title,
-                html: errMsg || message,
+                title,
+                html,
                 icon: "error",
-                showCancelButton: true,
+                showCancelButton,
                 cancelButtonText: "View Error",
             }).then((result) => {
                 if (result.dismiss === Swal.DismissReason.cancel) {
                     // Open a new tab to display error details
-                    var newWindow = window.open();
-                    if (newWindow) {
-                        if (typeof message === "string") {
+                    if (typeof message === "string") {
+                        var newWindow = window.open();
+                        if (newWindow) {
                             if (message.startsWith("<!DOCTYPE html>")) {
                                 newWindow.document.write(message);
                                 newWindow.stop();
@@ -115,7 +132,8 @@ Vts.setDefaults({
             });
         },
         complete: (form) => {
-            form.querySelector('[type="submit"]').disabled = false;
+            const submitBtn = form.querySelector('[type="submit"]');
+            if (submitBtn) submitBtn.disabled = false;
         },
     },
 });
