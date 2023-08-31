@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -14,6 +15,13 @@ use Inertia\Inertia;
 |
 */
 
+Route::get('/csrf', function () {
+    return ['_token' => csrf_token()];
+});
+
 Route::get('/', function () {
     return Inertia::render('MyHome', ['testdata' => 'd']);
 });
+
+Route::get('/cart', [CartController::class, 'getCartProducts']);
+Route::post('/cart:create', [CartController::class, 'create']);
