@@ -19,17 +19,28 @@ class ShopController extends Controller
         ]);
     }
 
-    public function create(): JsonResponse
+    public function create(Request $request): JsonResponse
     {
-        return Utils::tryCatch(function () {
+        return Utils::tryCatch(function () use ($request) {
             Gate::authorize('shop-create');
 
-            $shop = new Shop([
-              'user_id' => Auth::id()
+            $validated = $request->validate([
+              'name' => ['required', 'string', 'min:3', 'max:255'],
+              'description' => ['required', 'string'],
+              'pfp' => ['nullable', 'file'],
+              'cover' => ['nullable', 'file']
             ]);
+
+            $shop = new Shop();
+            $shop->user_id = Auth::id();
+            $shop->name = $validated['name'];
+            $shop->description = $validated['description'];
+
             $shop->save();
 
-            return response()->json();
+            return response()->json([
+              'message' => 'successfully created'
+            ]);
         });
     }
 
