@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -26,6 +27,8 @@ Route::middleware(['guest'])->group(function () {
     // LOGIN
     Route::get('/login', [AuthController::class, 'index'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
+    // SIGN UP
+    Route::post('/signup', [UserController::class, 'create']);
 });
 
 Route::middleware(['auth'])->group(function () {
@@ -37,6 +40,7 @@ Route::middleware(['auth'])->group(function () {
     // LOGOUT
     Route::get('/logout', [AuthController::class, 'logout']);
 });
+
 
 // CART
 Route::get('/cart', [CartController::class, 'getCartProducts']);
