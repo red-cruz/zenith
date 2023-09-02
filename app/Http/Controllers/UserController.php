@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
@@ -72,6 +73,20 @@ class UserController extends Controller
                   'user' => $user
                 ]
             );
+        });
+    }
+
+    public function delete(User $user): JsonResponse
+    {
+        return Utils::tryCatch(function () use ($user) {
+            Gate::authorize('user-delete', $user);
+
+            $user->delete();
+
+            return response()->json([
+              'message' => 'Successfully deleted',
+              'user' => $user,
+            ]);
         });
     }
 }

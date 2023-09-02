@@ -43,6 +43,7 @@ Route::middleware(['auth'])->group(function () {
 
 // USER
 Route::put('/user', [UserController::class, 'update']);
+Route::delete('/user/{user}', [UserController::class, 'delete']);
 
 // CART
 Route::get('/cart', [CartController::class, 'getCartProducts']);
