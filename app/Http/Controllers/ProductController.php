@@ -57,6 +57,13 @@ class ProductController extends Controller
         });
     }
 
+    public function read(Product $product): JsonResponse
+    {
+        return response()->json([
+          'product' => $product
+        ]);
+    }
+
     public function update(Request $request): JsonResponse
     {
         return Utils::tryCatch(function () use ($request): JsonResponse {
@@ -99,7 +106,7 @@ class ProductController extends Controller
     public function delete(Product $product): JsonResponse
     {
         return Utils::tryCatch(function () use ($product) {
-            // Gate::authorize('product-delete', $product);
+            Gate::authorize('product-delete', $product);
 
             $product->delete();
 

@@ -51,6 +51,7 @@ Route::delete('/shop/{shop}', [ShopController::class, 'delete']);
 
 // PRODUCT
 Route::get('/shop/{shop}/product/{product}', [ProductController::class, 'index'])->name('product');
+Route::get('/product/{product}', [ProductController::class, 'read'])->name('product-read');
 Route::post('/product', [ProductController::class, 'create'])->name('product-create');
 Route::put('/product', [ProductController::class, 'update'])->name('product-update');
 Route::delete('/product/{product}', [ProductController::class, 'delete'])->name('product-delete');
