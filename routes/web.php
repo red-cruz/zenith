@@ -53,4 +53,4 @@ Route::delete('/shop/{shop}', [ShopController::class, 'delete']);
 Route::get('/shop/{shop}/product/{product}', [ProductController::class, 'index'])->name('product');
 Route::post('/product', [ProductController::class, 'create'])->name('product-create');
 Route::put('/product', [ProductController::class, 'update'])->name('product-update');
-Route::delete('/product', [ProductController::class, 'delete'])->name('product-delete');
+Route::delete('/product/{product}', [ProductController::class, 'delete'])->name('product-delete');

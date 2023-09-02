@@ -95,4 +95,18 @@ class ProductController extends Controller
             );
         });
     }
+
+    public function delete(Product $product): JsonResponse
+    {
+        return Utils::tryCatch(function () use ($product) {
+            // Gate::authorize('product-delete', $product);
+
+            $product->delete();
+
+            return response()->json([
+              'message' => 'Successfully deleted',
+              'product_id' => $product->id,
+            ]);
+        });
+    }
 }
