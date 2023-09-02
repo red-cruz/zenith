@@ -7,7 +7,7 @@ use Illuminate\Http\JsonResponse;
 /**
  * This class provides static functions to handle errors.
  */
-class TryCatch extends Controller
+class Utils extends Controller
 {
     /**
      * This function takes a callback function as an argument and tries to execute it.
@@ -17,7 +17,7 @@ class TryCatch extends Controller
      * @param callable $callback The callback function to execute.
      * @return JsonResponse The JSON response.
      */
-    public static function input(callable $callback): JsonResponse
+    public static function tryCatch(callable $callback): JsonResponse
     {
         try {
             return $callback();
@@ -43,5 +43,14 @@ class TryCatch extends Controller
               'message' => 'Error: '.$th->getMessage()
             ], 500);
         }
+    }
+
+    public static function jsonResponse(
+        array $data = [],
+        int $status = 200,
+        array $headers = [],
+        int $options = 0
+    ): JsonResponse {
+        return response()->json($data, $status, $headers, $options);
     }
 }

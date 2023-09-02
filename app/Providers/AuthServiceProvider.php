@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Cart;
 use App\Policies\CartPolicy;
+use App\Policies\ShopPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -23,6 +24,9 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Gate::define('delete-cart', [CartPolicy::class, 'delete']);
+        Gate::define('cart-delete', [CartPolicy::class, 'delete']);
+        Gate::define('shop-create', [ShopPolicy::class, 'create']);
+        Gate::define('shop-update', [ShopPolicy::class, 'update']);
+        Gate::define('shop-delete', [ShopPolicy::class, 'delete']);
     }
 }

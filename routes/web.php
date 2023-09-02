@@ -38,3 +38,5 @@ Route::post('/cart', [CartController::class, 'upsert']);
 Route::delete('/cart/{cart}', [CartController::class, 'delete']);
 
 Route::get('/shop/{shop}', [ShopController::class, 'index'])->name('shop');
+Route::put('/shop', [ShopController::class, 'update']);
+Route::delete('/shop/{shop}', [ShopController::class, 'delete']);

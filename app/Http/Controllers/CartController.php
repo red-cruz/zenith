@@ -19,7 +19,7 @@ class CartController extends Controller
 
     public function upsert(Request $request): JsonResponse
     {
-        return TryCatch::input(function () use ($request): JsonResponse {
+        return Utils::tryCatch(function () use ($request): JsonResponse {
             $validated = $request->validate([
               'product_id' => ['required', 'integer', 'exists:products,id'],
               'quantity' => ['required', 'integer'],
@@ -45,9 +45,9 @@ class CartController extends Controller
 
     public function delete(Cart $cart): JsonResponse
     {
-        return TryCatch::input(function () use ($cart) {
+        return Utils::tryCatch(function () use ($cart) {
             // Gate::authorize('delete-cart', $cart);
-            $response = Gate::inspect('delete-cart', $cart);
+            $response = Gate::inspect('cart-delete', $cart);
 
             if ($response->denied()) {
                 dd($response);
