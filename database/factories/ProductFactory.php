@@ -29,7 +29,7 @@ class ProductFactory extends Factory
             'price' => fake()->randomFloat(2, 0, 8),
             'prev_price' => fake()->randomFloat(2, 0, 8),
             'category_id' => $category,
-            'subcategory_id' => SubCategory::select('id')->where('id', $category->id)->get()->random()
+            'subcategory_id' => SubCategory::select('id')->where('category_id', $category->id)->get()->random()
         ];
     }
 }

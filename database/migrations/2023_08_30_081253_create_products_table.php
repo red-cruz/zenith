@@ -21,7 +21,7 @@ return new class () extends Migration {
             $table->decimal('prev_price')->nullable();
             $table->foreignId('category_id')->constrained();
             $table->unsignedBigInteger('subcategory_id')->nullable();
-            $table->foreign('subcategory_id')->references('id')->on('categories');
+            $table->foreign('subcategory_id')->references('id')->on('sub_categories');
             $table->string('pfp_url')->default('shop-profile.png');
             $table->timestamps();
         });

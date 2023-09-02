@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -25,14 +26,15 @@ Route::middleware(['guest'])->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
 });
 
-
 Route::middleware(['auth'])->group(function () {
     Route::get('/', function () {
         return Inertia::render('MyHome', ['testdata' => 'd']);
-    });
+    })->name('home');
     Route::get('/logout', [AuthController::class, 'logout']);
 });
 
 Route::get('/cart', [CartController::class, 'getCartProducts']);
 Route::post('/cart', [CartController::class, 'upsert']);
 Route::delete('/cart/{cart}', [CartController::class, 'delete']);
+
+Route::get('/shop/{shop}', [ShopController::class, 'index'])->name('shop');
