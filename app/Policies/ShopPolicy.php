@@ -34,7 +34,7 @@ class ShopPolicy
     public function delete(User $user, Shop $shop): Response
     {
         return $user->id === $shop->user_id
-          ? Response::allow()
+          ? Response::allow('allowed')
           : Response::deny('You don\'t own this shop.');
     }
 

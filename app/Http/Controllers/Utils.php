@@ -32,7 +32,10 @@ class Utils extends Controller
               'validation_errors' => $err->errors()
             ], 422);
         } catch(\Illuminate\Auth\Access\AuthorizationException $err) {
-            return $err->response();
+            return response()->json([
+              'message' => $err->getMessage()
+            ]);
+
         } catch (\Throwable $th) {
             /**
              * This exception is thrown for any other errors.

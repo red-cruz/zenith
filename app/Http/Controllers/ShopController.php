@@ -45,11 +45,13 @@ class ShopController extends Controller
             ]);
 
             $shop = Shop::find($validated['shop_id']);
-            // Gate::authorize('shop-update', $shop);
+
+            Gate::authorize('shop-update', $shop);
+
             $shop->name = $validated['name'];
             $shop->description = $validated['description'];
-            $shop->save();
 
+            $shop->save();
 
             return response()->json([
               'message' => 'Successfully updated',
@@ -61,7 +63,8 @@ class ShopController extends Controller
     public function delete(Shop $shop): JsonResponse
     {
         return Utils::tryCatch(function () use ($shop) {
-            // Gate::authorize('shop-update', $shop);
+            Gate::authorize('shop-delete', $shop);
+
             $shop->delete();
 
             return response()->json([
