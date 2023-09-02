@@ -10,6 +10,16 @@ use Illuminate\Auth\Access\Response;
 class ProductPolicy
 {
     /**
+     * Determine whether the user can create a model.
+     */
+    public function create(User $user, Shop $shop): Response
+    {
+        return $user->id === $shop->user_id
+          ? Response::allow()
+          : Response::deny('You can\'t add a product to this shop.');
+    }
+
+    /**
      * Determine whether the user can update the model.
      */
     public function update(User $user, Product $product): Response

@@ -17,6 +17,46 @@ class ProductController extends Controller
         ]);
     }
 
+    public function create(Request $request): JsonResponse
+    {
+        return Utils::tryCatch(function () use ($request): JsonResponse {
+            $validated = $request->validate([
+              'shop_id' => ['required', 'integer', 'exists:shops,id'],
+              'name' => ['required', 'string'],
+              'brand' => ['required', 'string'],
+              'description' => ['required', 'string'],
+              'quantity' => ['required', 'integer'],
+              'price' => ['required', 'integer'],
+              'prev_price' => ['required', 'integer'],
+              'category_id' => ['required', 'integer', 'exists:categories,id'],
+              // 'pfp' => ['required', 'file']
+            ]);
+            $shop = Shop::find($validated['shop_id']);
+
+            Gate::authorize('product-create', $shop);
+
+            $product = new Product();
+
+            $product->shop_id = $validated['shop_id'];
+            $product->name = $validated['name'];
+            $product->brand = $validated['brand'];
+            $product->description = $validated['description'];
+            $product->quantity = $validated['quantity'];
+            $product->price = $validated['price'];
+            $product->prev_price = $validated['prev_price'];
+            $product->category_id = $validated['category_id'];
+
+            $product->save();
+
+            return response()->json(
+                [
+                  'message' => 'successfully added',
+                  'product' => $product
+                ]
+            );
+        });
+    }
+
     public function update(Request $request): JsonResponse
     {
         return Utils::tryCatch(function () use ($request): JsonResponse {
@@ -30,7 +70,6 @@ class ProductController extends Controller
               'price' => ['required', 'integer'],
               'prev_price' => ['required', 'integer'],
               'category_id' => ['required', 'integer', 'exists:categories,id'],
-              'subcategory_id' => ['required', 'integer', 'exists:sub_categories,id'],
               // 'pfp' => ['required', 'file']
             ]);
 
