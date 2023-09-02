@@ -2,13 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\SubCategory>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ParentCategory>
  */
-class SubCategoryFactory extends Factory
+class ParentCategoryFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,8 +16,9 @@ class SubCategoryFactory extends Factory
      */
     public function definition(): array
     {
-        return [
-            'name' => fake('en_PH')->company(),
-        ];
+      return [
+        'name' => fake()->jobTitle(),
+        'description' => fake()->realText()
+    ];
     }
 }

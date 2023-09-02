@@ -45,13 +45,12 @@ class ProductController extends Controller
             $product->price = $validated['price'];
             $product->prev_price = $validated['prev_price'];
             $product->category_id = $validated['category_id'];
-            $product->subcategory_id = $validated['subcategory_id'];
 
             $product->save();
 
             return response()->json(
                 [
-                  'message' => 'Successfully updated',
+                  'message' => $validated['name'] .'has been updated',
                   'product' => $product
                 ]
             );

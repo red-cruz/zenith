@@ -16,9 +16,8 @@ class CategoryFactory extends Factory
      */
     public function definition(): array
     {
-        return [
-            'name' => fake()->jobTitle(),
-            'description' => fake()->realText()
-        ];
+      return [
+        'name' => fake('en_PH')->company(),
+    ];
     }
 }
