@@ -41,6 +41,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/logout', [AuthController::class, 'logout']);
 });
 
+// USER
+Route::put('/user', [UserController::class, 'update']);
 
 // CART
 Route::get('/cart', [CartController::class, 'getCartProducts']);
