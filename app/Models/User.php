@@ -49,9 +49,9 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function address(): MorphOne
+    public function userAddresses(): HasMany
     {
-        return $this->morphOne(Address::class, 'addressable');
+        return $this->hasMany(UserAddress::class);
     }
 
     public function shop(): HasOne

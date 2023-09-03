@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Shop extends Model
 {
@@ -17,9 +17,9 @@ class Shop extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function address(): MorphOne
+    public function shopAddress(): HasOne
     {
-        return $this->morphOne(Address::class, 'addressable');
+        return $this->hasOne(ShopAddress::class);
     }
 
     public function products(): HasMany

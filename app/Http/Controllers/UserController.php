@@ -35,14 +35,24 @@ class UserController extends Controller
 
             $user->save();
 
-            return response()->json(
-                [
-                  'message' => 'succesfully createad an account',
-                  'user' => $user
-                ]
-            );
+            return response()->json([
+              'message' => 'succesfully createad an account',
+              'user' => $user
+            ]);
         });
     }
+
+    public function read(User $user): JsonResponse
+    {
+        return Utils::tryCatch(function () use ($user): JsonResponse {
+            $user['addresss'] = $user->address();
+            $user->shop;
+            return response()->json([
+              'user' => $user
+            ]);
+        });
+    }
+
     public function update(Request $request): JsonResponse
     {
         return Utils::tryCatch(function () use ($request): JsonResponse {
@@ -67,12 +77,10 @@ class UserController extends Controller
 
             $user->save();
 
-            return response()->json(
-                [
-                  'message' => 'succesfully updated',
-                  'user' => $user
-                ]
-            );
+            return response()->json([
+              'message' => 'succesfully updated',
+              'user' => $user
+            ]);
         });
     }
 

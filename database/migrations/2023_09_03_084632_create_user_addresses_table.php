@@ -10,10 +10,9 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('addresses', function (Blueprint $table) {
+        Schema::create('user_addresses', function (Blueprint $table) {
             $table->id();
-            $table->string('addressable_id');
-            $table->string('addressable_type')->default('user');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('street');
             $table->string('city');
             $table->string('state');
@@ -27,6 +26,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('addresses');
+        Schema::dropIfExists('user_addresses');
     }
 };

@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Address;
+use App\Models\UserAddress;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -29,8 +29,7 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'plain_pass' => $password,
             'password' => password_hash($password, PASSWORD_BCRYPT),
-            'remember_token' => Str::random(10),
-            'address_id' => Address::factory()->create()
+            'remember_token' => Str::random(10)
         ];
     }
 

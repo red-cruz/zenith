@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Address;
+use App\Models\ShopAddress;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,7 +20,6 @@ class ShopFactory extends Factory
         return [
             'name' => fake()->company(),
             'description' => fake()->realText(),
-            'address_id' => Address::factory()->create(['type' => 'shop'])
         ];
     }
 }

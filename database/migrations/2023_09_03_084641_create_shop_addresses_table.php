@@ -10,13 +10,13 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('shops', function (Blueprint $table) {
+        Schema::create('shop_addresses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->longText('description');
-            $table->string('name');
-            $table->string('pfp_url')->default('shop-profile.png');
-            $table->string('cover_url')->default('shop-cover.png');
+            $table->foreignId('shop_id')->constrained()->onDelete('cascade');
+            $table->string('street');
+            $table->string('city');
+            $table->string('state');
+            $table->string('zip_code');
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('shops');
+        Schema::dropIfExists('shop_addresses');
     }
 };
