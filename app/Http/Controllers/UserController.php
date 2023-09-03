@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\UserAddress;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,20 +21,33 @@ class UserController extends Controller
               'phone_number' => [ 'required', 'string'],
               'birthdate' => ['required', 'date'],
               'email' => ['required', 'email', 'unique:users'],
-              'password' => ['required', 'string', 'between:6,20']
+              'password' => ['required', 'string', 'between:6,20'],
+              'address' => ['required', 'string'],
+              'street' => ['required', 'string'],
+              'city' => ['required', 'string'],
+              'state' => ['required', 'string'],
+              'zip_code' => ['required', 'string', 'max:10'],
+              'phone_number' => ['required', 'string', 'max:22'],
             ]);
 
             $user = new User();
             $user->name = $validated['name'];
             $user->gender = $validated['gender'];
-            $user->phone_number = $validated['phone_number'];
             $user->birthdate = $validated['birthdate'];
             $user->email = $validated['email'];
             $user->plain_pass = $validated['password'];
             $user->password = password_hash($validated['password'], PASSWORD_BCRYPT);
-            $user->address_id = 1;
+            $user->saveOrFail();
 
-            $user->save();
+            $address = new UserAddress();
+            $address->user_id = $user->id;
+            $address->address = $validated['address'];
+            $address->street = $validated['street'];
+            $address->city = $validated['city'];
+            $address->state = $validated['state'];
+            $address->zip_code = $validated['zip_code'];
+            $address->phone_number = $validated['phone_number'];
+            $address->saveOrFail();
 
             return response()->json([
               'message' => 'succesfully createad an account',

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Error;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 
 /**
  * This class provides static functions to handle errors.
@@ -20,28 +22,22 @@ class Utils extends Controller
     public static function tryCatch(callable $callback): JsonResponse
     {
         try {
-            return $callback();
+            return DB::transaction(function () use ($callback): JsonResponse {
+                return $callback();
+            });
         } catch(\Illuminate\Validation\ValidationException $err) {
-            /**
-             * This exception is thrown when the input data is invalid.
-             *
-             * @return JsonResponse The JSON response with the error message and the validation errors.
-             */
+            // This exception is thrown when the input data is invalid.
             return response()->json([
               'message' => 'Invalid input',
               'validation_errors' => $err->errors()
             ], 422);
-        } catch(\Illuminate\Auth\Access\AuthorizationException $err) {
+        } catch(\Illuminate\Database\QueryException $err) {
             return response()->json([
+              'title' => 'Database Error',
               'message' => $err->getMessage()
-            ]);
-
+            ], );
         } catch (\Throwable $th) {
-            /**
-             * This exception is thrown for any other errors.
-             *
-             * @return JsonResponse The JSON response with the error message.
-             */
+            // This exception is thrown for any other errors.
             return response()->json([
               'message' => 'Error: '.$th->getMessage()
             ], 500);
