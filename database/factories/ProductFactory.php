@@ -18,7 +18,6 @@ class ProductFactory extends Factory
      */
     public function definition(): array
     {
-        $category = Category::all('id')->random();
         return [
             'shop_id' => Shop::all('id')->random(),
             'name' => fake('en_PH')->company(),
