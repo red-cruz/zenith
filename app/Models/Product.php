@@ -11,9 +11,9 @@ class Product extends Model
 {
     use HasFactory;
 
-    public function parentCategory(): HasOne
+    public function category(): Category
     {
-        return $this->hasOne(ParentCategory::class);
+        return Category::find($this->category_id);
     }
 
     public function variations(): HasMany

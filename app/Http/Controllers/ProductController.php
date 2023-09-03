@@ -12,6 +12,10 @@ class ProductController extends Controller
 {
     public function index(Shop $shop, Product $product): JsonResponse
     {
+        $product->variations;
+        $product['category'] = $product->category();
+        $product['category']->parentCategory;
+
         return response()->json([
           'product' => $product
         ]);

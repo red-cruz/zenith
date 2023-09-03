@@ -12,7 +12,8 @@ return new class () extends Migration {
     {
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
-            $table->string('type')->default('user');
+            $table->string('addressable_id');
+            $table->string('addressable_type')->default('user');
             $table->string('street');
             $table->string('city');
             $table->string('state');
