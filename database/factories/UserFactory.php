@@ -23,7 +23,6 @@ class UserFactory extends Factory
         return [
             'name' => fake('en_PH')->name($gender),
             'gender' => $gender,
-            'phone_number' => fake()->numberBetween(100000000, 999999999),
             'birthdate' => fake()->date('Y-m-d', '-18 years'),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),

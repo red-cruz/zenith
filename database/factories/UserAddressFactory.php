@@ -18,10 +18,12 @@ class UserAddressFactory extends Factory
     public function definition(): array
     {
         return [
-          'street' => fake('en_PH')->streetAddress(),
+          'address' => fake('en_PH')->streetAddress(),
+          'street' => fake('en_PH')->streetName(),
           'city' => fake('en_PH')->municipality(),
           'state' => fake('en_PH')->province(),
-          'zip_code' => fake()->randomNumber(4)
+          'zip_code' => fake()->randomNumber(4),
+          'phone_number' => fake('en_PH')->phoneNumber()
         ];
     }
 }

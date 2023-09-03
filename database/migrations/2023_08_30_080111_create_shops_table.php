@@ -13,8 +13,8 @@ return new class () extends Migration {
         Schema::create('shops', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->longText('description');
             $table->string('name');
+            $table->longText('description');
             $table->string('pfp_url')->default('shop-profile.png');
             $table->string('cover_url')->default('shop-cover.png');
             $table->timestamps();
