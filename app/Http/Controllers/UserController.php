@@ -45,8 +45,9 @@ class UserController extends Controller
     public function read(User $user): JsonResponse
     {
         return Utils::tryCatch(function () use ($user): JsonResponse {
-            $user['addresss'] = $user->address();
-            $user->shop;
+            $user->userAddresses;
+            $user->cart;
+            $user->shop->shopAddress;
             return response()->json([
               'user' => $user
             ]);

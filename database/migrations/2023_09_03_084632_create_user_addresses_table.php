@@ -19,6 +19,7 @@ return new class () extends Migration {
             $table->string('state');
             $table->string('zip_code', 10);
             $table->string('phone_number', 22);
+            $table->boolean('default')->default(false);
             $table->timestamps();
         });
     }
