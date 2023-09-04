@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Error;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 
@@ -31,6 +30,11 @@ class Utils extends Controller
               'message' => 'Invalid input',
               'validation_errors' => $err->errors()
             ], 422);
+        } catch(\Illuminate\Auth\Access\AuthorizationException $err) {
+            return response()->json([
+              'title' => 'Unauthorized access',
+              'message' => $err->getMessage()
+            ]);
         } catch(\Illuminate\Database\QueryException $err) {
             return response()->json([
               'title' => 'Database Error',

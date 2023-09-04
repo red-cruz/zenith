@@ -48,7 +48,10 @@ Route::put('/user', [UserController::class, 'update']);
 Route::delete('/user/{user}', [UserController::class, 'delete']);
 
 // USER ADDRESS
-Route::delete('/user/{userAddress}', [UserAddressController::class, 'delete']);
+Route::post('/userAddress', [UserAddressController::class, 'create']);
+Route::get('/userAddress/{userAddress}', [UserAddressController::class, 'read']);
+Route::put('/userAddress', [UserAddressController::class, 'update']);
+Route::delete('/userAddress/{userAddress}', [UserAddressController::class, 'delete']);
 
 // CART
 Route::get('/cart', [CartController::class, 'getCartProducts']);

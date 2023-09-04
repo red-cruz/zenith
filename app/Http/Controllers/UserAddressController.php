@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\UserAddress;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -35,6 +36,16 @@ class UserAddressController extends Controller
             return response()->json([
               'message' => 'succesfully added an address',
               'address' => $address
+            ]);
+        });
+    }
+
+    public function read(UserAddress $userAddress): JsonResponse
+    {
+        return Utils::tryCatch(function () use ($userAddress): JsonResponse {
+            Gate::authorize('user-address-read', $userAddress);
+            return response()->json([
+              'address' => $userAddress
             ]);
         });
     }

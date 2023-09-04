@@ -31,6 +31,7 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('user-delete', [UserPolicy::class, 'delete']);
 
         // USER ADDRESS
+        Gate::define('user-address-read', [UserAddressPolicy::class, 'view']);
         Gate::define('user-address-update', [UserAddressPolicy::class, 'update']);
         Gate::define('user-address-delete', [UserAddressPolicy::class, 'delete']);
 

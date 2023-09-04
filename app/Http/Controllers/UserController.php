@@ -42,14 +42,12 @@ class UserController extends Controller
 
     public function read(User $user): JsonResponse
     {
-        return Utils::tryCatch(function () use ($user): JsonResponse {
-            $user->userAddresses;
-            $user->cart;
-            $user->shop->shopAddress;
-            return response()->json([
-              'user' => $user
-            ]);
-        });
+        $user->userAddresses;
+        $user->cart;
+        $user->shop->shopAddress;
+        return response()->json([
+          'user' => $user
+        ]);
     }
 
     public function update(Request $request): JsonResponse
