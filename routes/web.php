@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ParentCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShopAddressController;
 use App\Http\Controllers\ShopController;
@@ -51,11 +52,18 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // CATEGORY
-Route::get('/categories', [CategoryController::class, 'showAll']);
+// Route::get('/categories', [CategoryController::class, 'showAll']);
 Route::get('/category/{category}', [CategoryController::class, 'show']);
 Route::post('/category', [CategoryController::class, 'create']);
 Route::put('/category', [CategoryController::class, 'update']);
 Route::delete('/category/{category}', [CategoryController::class, 'delete']);
+
+// PARENT CATEGORY
+Route::get('/categories', [ParentCategoryController::class, 'showAll']);
+Route::get('/category/parent/{parentCategory}', [ParentCategoryController::class, 'show']);
+Route::post('/category/parent', [ParentCategoryController::class, 'create']);
+Route::put('/category/parent', [ParentCategoryController::class, 'update']);
+Route::delete('/category/parent/{parentCategory}', [ParentCategoryController::class, 'delete']);
 
 // USER
 Route::get('/user/{user}', [UserController::class, 'read']);

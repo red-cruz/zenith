@@ -38,7 +38,7 @@ class CategoryController extends Controller
 
             return response()->json([
               'message' => 'successfully added a category',
-              'category' => $category
+              'category' => $category,
             ]);
         });
     }
@@ -59,7 +59,7 @@ class CategoryController extends Controller
 
             return response()->json([
               'message' => 'successfully updated a category',
-              $category
+              'category' => $category,
             ]);
         });
     }
