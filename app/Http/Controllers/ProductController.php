@@ -35,7 +35,7 @@ class ProductController extends Controller
               'category_id' => ['required', 'integer', 'exists:categories,id'],
               // 'pfp' => ['required', 'file']
             ]);
-            $shop = Shop::find($validated['shop_id']);
+            $shop = Shop::findOrFail($validated['shop_id']);
 
             Gate::authorize('product-create', $shop);
 
@@ -50,7 +50,7 @@ class ProductController extends Controller
             $product->prev_price = $validated['prev_price'];
             $product->category_id = $validated['category_id'];
 
-            $product->save();
+            $product->saveOrFail();
 
             return response()->json(
                 [
@@ -84,7 +84,7 @@ class ProductController extends Controller
               // 'pfp' => ['required', 'file']
             ]);
 
-            $product = Product::find($validated['id']);
+            $product = Product::findOrFail($validated['id']);
 
             Gate::authorize('product-update', $product);
 
@@ -96,7 +96,7 @@ class ProductController extends Controller
             $product->prev_price = $validated['prev_price'];
             $product->category_id = $validated['category_id'];
 
-            $product->save();
+            $product->saveOrFail();
 
             return response()->json(
                 [
@@ -112,7 +112,7 @@ class ProductController extends Controller
         return Utils::tryCatch(function () use ($product) {
             Gate::authorize('product-delete', $product);
 
-            $product->delete();
+            $product->deleteOrFail();
 
             return response()->json([
               'message' => 'Successfully deleted',

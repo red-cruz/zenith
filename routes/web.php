@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\UserAddressController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -45,6 +46,9 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/user/{user}', [UserController::class, 'read']);
 Route::put('/user', [UserController::class, 'update']);
 Route::delete('/user/{user}', [UserController::class, 'delete']);
+
+// USER ADDRESS
+Route::delete('/user/{userAddress}', [UserAddressController::class, 'delete']);
 
 // CART
 Route::get('/cart', [CartController::class, 'getCartProducts']);

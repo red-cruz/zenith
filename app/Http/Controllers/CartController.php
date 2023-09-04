@@ -46,14 +46,8 @@ class CartController extends Controller
     public function delete(Cart $cart): JsonResponse
     {
         return Utils::tryCatch(function () use ($cart) {
-            // Gate::authorize('delete-cart', $cart);
-            $response = Gate::inspect('cart-delete', $cart);
-
-            if ($response->denied()) {
-                dd($response);
-                throw new AuthorizationException($response->message());
-            }
-            $cart->delete();
+            Gate::authorize('delete-cart', $cart);
+            $cart->deleteOrFail();
             return response()->json([
               'cart_id' => $cart->id
             ]);

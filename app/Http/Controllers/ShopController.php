@@ -36,7 +36,7 @@ class ShopController extends Controller
             $shop->name = $validated['name'];
             $shop->description = $validated['description'];
 
-            $shop->save();
+            $shop->saveOrFail();
 
             return response()->json([
               'message' => 'successfully created'
@@ -55,14 +55,14 @@ class ShopController extends Controller
               'cover' => ['nullable', 'file']
             ]);
 
-            $shop = Shop::find($validated['shop_id']);
+            $shop = Shop::findOrFail($validated['shop_id']);
 
             Gate::authorize('shop-update', $shop);
 
             $shop->name = $validated['name'];
             $shop->description = $validated['description'];
 
-            $shop->save();
+            $shop->saveOrFail();
 
             return response()->json([
               'message' => 'Successfully updated',
@@ -76,7 +76,7 @@ class ShopController extends Controller
         return Utils::tryCatch(function () use ($shop) {
             Gate::authorize('shop-delete', $shop);
 
-            $shop->delete();
+            $shop->deleteOrFail();
 
             return response()->json([
               'message' => 'Successfully deleted',
