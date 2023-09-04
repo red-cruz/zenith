@@ -11,13 +11,15 @@ class VariationController extends Controller
     public function showAll(): JsonResponse
     {
         return Utils::tryCatch(function (): JsonResponse {
-            return response()->json(Variation::all());
+
+            return response()->json(Variation::with('variationOptions')->get());
         });
     }
 
     public function show(Variation $variation): JsonResponse
     {
         return Utils::tryCatch(function () use ($variation): JsonResponse {
+            $variation->variationOptions;
             return response()->json($variation);
         });
     }
