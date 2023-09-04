@@ -10,6 +10,7 @@ use App\Http\Controllers\ShopController;
 use App\Http\Controllers\UserAddressController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VariationController;
+use App\Http\Controllers\VariationOptionController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -105,7 +106,7 @@ Route::put('/variation', [VariationController::class, 'update']);
 Route::delete('/variation/{variation}', [VariationController::class, 'delete']);
 
 // VARIATION OPTIONS
-Route::get('/variation/{variation}/option/{variationOption}', [VariationController::class, 'show']);
+Route::get('/variation/{variation}/option/{variationOption}', [VariationOptionController::class, 'show']);
 Route::post('/variation/option', [VariationController::class, 'create']);
 Route::put('/variation/option', [VariationController::class, 'update']);
 Route::delete('/variation/option/{variationOption}', [VariationController::class, 'delete']);

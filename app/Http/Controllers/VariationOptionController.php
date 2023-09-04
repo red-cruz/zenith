@@ -9,13 +9,16 @@ use Illuminate\Http\Request;
 
 class VariationOptionController extends Controller
 {
-    public function show(Variation $variation, VariationOption $variationOption): JsonResponse
+    public function show($variation_id, $option_id): JsonResponse
     {
-        return Utils::tryCatch(function () use ($variation, $variationOption): JsonResponse {
+        $variationOption = VariationOption::with('variation')
+          ->where([
+            ['id', $option_id],
+            ['variation_id', $variation_id]
+          ])
+          ->firstOrFail();
 
-            $variationOption->variationOptions;
-            return response()->json($variationOption);
-        });
+        return response()->json($variationOption);
     }
 
     public function create(Request $request): JsonResponse
