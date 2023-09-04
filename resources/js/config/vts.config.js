@@ -147,8 +147,13 @@ function showFeedback(fieldClass, data) {
             parent = parent.parentElement;
         }
 
-        if (!parent.classList.contains(fieldClass) && fieldClass)
-            parent.classList.add(fieldClass);
+        parent.classList.add(fieldClass);
+
+        if (fieldClass === "v-input--error") {
+            parent.querySelector(".v-field").classList.add("v-field--error");
+        } else {
+            parent.querySelector(".v-field").classList.remove("v-field--error");
+        }
 
         const container = parent
             .querySelector(".v-input__details")

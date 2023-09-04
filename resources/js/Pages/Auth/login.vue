@@ -13,42 +13,22 @@
             ></v-img>
 
             <form id="login-form" method="post" action="/login" novalidate>
-                <div class="text-subtitle-1 text-medium-emphasis">Account</div>
                 <v-text-field
                     type="email"
                     name="email"
-                    autocomplete="username"
-                    density="compact"
-                    placeholder="Email address"
+                    label="Email"
                     prepend-inner-icon="mdi-email-outline"
-                    variant="outlined"
-                    aria-required="true"
+                    autocomplete="username"
                     required
                 ></v-text-field>
-                <div
-                    class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between"
-                >
-                    Password
-
-                    <a
-                        class="text-caption text-decoration-none text-blue"
-                        href="/reset-password"
-                        rel="noopener noreferrer"
-                    >
-                        Forgot login password?</a
-                    >
-                </div>
 
                 <v-text-field
-                    name="password"
-                    autocomplete="current-password"
                     :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
                     :type="visible ? 'text' : 'password'"
-                    density="compact"
-                    placeholder="Enter your password"
+                    name="password"
+                    label="Password"
                     prepend-inner-icon="mdi-lock-outline"
-                    variant="outlined"
-                    aria-required="true"
+                    autocomplete="username"
                     required
                     @click:append-inner="visible = !visible"
                 ></v-text-field>
