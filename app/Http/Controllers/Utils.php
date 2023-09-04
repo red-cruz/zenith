@@ -34,12 +34,17 @@ class Utils extends Controller
             return response()->json([
               'title' => 'Unauthorized access',
               'message' => $err->getMessage()
-            ]);
+            ], 403);
         } catch(\Illuminate\Database\QueryException $err) {
             return response()->json([
               'title' => 'Database Error',
               'message' => $err->getMessage()
-            ], );
+            ], 400);
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $err) {
+            return response()->json([
+              'title' => 'Database Error',
+              'message' => 'Data not found'
+            ], 404);
         } catch (\Throwable $th) {
             // This exception is thrown for any other errors.
             return response()->json([

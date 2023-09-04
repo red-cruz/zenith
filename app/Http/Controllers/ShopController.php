@@ -43,14 +43,14 @@ class ShopController extends Controller
             $shop->description = $validated['description'];
             $shop->saveOrFail();
 
-            $address = new ShopAddress();
-            $address->shop_id = $shop->id;
-            $address->address = $validated['address'];
-            $address->street = $validated['street'];
-            $address->city = $validated['city'];
-            $address->state = $validated['state'];
-            $address->zip_code = $validated['zip_code'];
-            $address->saveOrFail();
+            $shopAddress = new ShopAddress();
+            $shopAddress->shop_id = $shop->id;
+            $shopAddress->address = $validated['address'];
+            $shopAddress->street = $validated['street'];
+            $shopAddress->city = $validated['city'];
+            $shopAddress->state = $validated['state'];
+            $shopAddress->zip_code = $validated['zip_code'];
+            $shopAddress->saveOrFail();
 
             $shop->shopAddress;
 
@@ -65,25 +65,38 @@ class ShopController extends Controller
     {
         return Utils::tryCatch(function () use ($request) {
             $validated = $request->validate([
-              'shop_id' => ['required', 'integer', 'exists:shops,id'],
               'name' => ['required', 'string', 'min:3', 'max:255'],
               'description' => ['required', 'string'],
               'pfp' => ['nullable', 'file'],
-              'cover' => ['nullable', 'file']
+              'cover' => ['nullable', 'file'],
+              'address' => ['required', 'string'],
+              'street' => ['required', 'string'],
+              'city' => ['required', 'string'],
+              'state' => ['required', 'string'],
+              'zip_code' => ['required', 'string', 'max:10'],
             ]);
 
-            $shop = Shop::findOrFail($validated['shop_id']);
+            $shop = Shop::where('user_id', Auth::id())->firstOrFail();
 
             Gate::authorize('shop-update', $shop);
 
             $shop->name = $validated['name'];
             $shop->description = $validated['description'];
-
             $shop->saveOrFail();
+
+            $shopAddress = $shop->shopAddress;
+            $shopAddress->address = $validated['address'];
+            $shopAddress->street = $validated['street'];
+            $shopAddress->city = $validated['city'];
+            $shopAddress->state = $validated['state'];
+            $shopAddress->zip_code = $validated['zip_code'];
+            $shopAddress->saveOrFail();
+
+            $shop->shopAddress;
 
             return response()->json([
               'message' => 'Successfully updated',
-              'shop' => $validated
+              'shop' => $shop
             ]);
         });
     }

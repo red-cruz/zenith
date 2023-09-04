@@ -65,10 +65,6 @@ Route::post('/shop', [ShopController::class, 'create']);
 Route::put('/shop', [ShopController::class, 'update']);
 Route::delete('/shop/{shop}', [ShopController::class, 'delete']);
 
-// SHOP ADDRESS
-Route::put('/shopAddress', [ShopAddressController::class, 'update']);
-Route::delete('/shopAddress/{shopAddress}', [ShopAddressController::class, 'delete']);
-
 // PRODUCT
 Route::get('/shop/{shop}/product/{product}', [ProductController::class, 'index'])->name('product');
 Route::get('/product/{product}', [ProductController::class, 'read'])->name('product-read');
