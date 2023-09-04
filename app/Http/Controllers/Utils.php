@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Closure;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 
@@ -15,10 +16,10 @@ class Utils extends Controller
      * If the callback function throws an exception, the function will catch the exception and return a JSON response with the error message.
      * If the callback function does not throw an exception, the function will return a JSON response with a success message.
      *
-     * @param callable $callback The callback function to execute.
+     * @param Closure $callback The callback function to execute.
      * @return JsonResponse The JSON response.
      */
-    public static function tryCatch(callable $callback): JsonResponse
+    public static function tryCatch(Closure $callback): JsonResponse
     {
         try {
             return DB::transaction(function () use ($callback): JsonResponse {
