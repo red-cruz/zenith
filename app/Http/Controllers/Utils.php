@@ -6,18 +6,18 @@ use Closure;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 
-/**
- * This class provides static functions to handle errors.
- */
 class Utils extends Controller
 {
     /**
-     * This function takes a callback function as an argument and tries to execute it.
-     * If the callback function throws an exception, the function will catch the exception and return a JSON response with the error message.
-     * If the callback function does not throw an exception, the function will return a JSON response with a success message.
+     * This method takes a closure as an argument and tries to execute it within a database transaction.
      *
-     * @param Closure $callback The callback function to execute.
-     * @return JsonResponse The JSON response.
+     * If the callback function throws an exception, the function will catch the exception and return a JSON response with the error message.
+     *
+     * If the callback function does not throw an exception, the function will commit the database transaction and return the callback function.
+     *
+     * @param Closure $callback The closure **must return** an `Illuminate\Http\JsonResponse`.
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
     public static function tryCatch(Closure $callback): JsonResponse
     {
@@ -32,16 +32,19 @@ class Utils extends Controller
               'validation_errors' => $err->errors()
             ], 422);
         } catch(\Illuminate\Auth\Access\AuthorizationException $err) {
+            // This exception is thrown when the user does not have permission to perform the requested action.
             return response()->json([
               'title' => 'Unauthorized access',
               'message' => $err->getMessage()
             ], 403);
         } catch(\Illuminate\Database\QueryException $err) {
+            // This exception is thrown when there is an error in the database query.
             return response()->json([
               'title' => 'Database Error',
               'message' => $err->getMessage()
             ], 400);
         } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $err) {
+            // This exception is thrown when the requested data is not found in the database.
             return response()->json([
               'title' => 'Database Error',
               'message' => 'Data not found'

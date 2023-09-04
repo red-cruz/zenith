@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShopAddressController;
 use App\Http\Controllers\ShopController;
@@ -34,6 +35,12 @@ Route::middleware(['guest'])->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
+
+    // admin
+    Route::middleware(['admin'])->group(function () {
+
+    });
+
     // HOME
     Route::get('/', function () {
         return Inertia::render('MyHome', ['testdata' => 'd']);
@@ -42,6 +49,10 @@ Route::middleware(['auth'])->group(function () {
     // LOGOUT
     Route::get('/logout', [AuthController::class, 'logout']);
 });
+
+// CATEGORY
+Route::get('/categories', [CategoryController::class, 'showAll']);
+Route::get('/category/{category}', [CategoryController::class, 'show']);
 
 // USER
 Route::get('/user/{user}', [UserController::class, 'read']);

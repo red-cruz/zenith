@@ -11,6 +11,11 @@ class ParentCategory extends Model
 {
     use HasFactory;
 
+    public function onDelete()
+    {
+        // This will update the `deleted_at` column to the current timestamp.
+        return 'UPDATE users SET deleted_at = NOW() WHERE id = :id';
+    }
 
     public function categories(): HasMany
     {
