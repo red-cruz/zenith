@@ -9,6 +9,7 @@ use App\Http\Controllers\ShopAddressController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\UserAddressController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VariationController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -95,3 +96,10 @@ Route::get('/product/{product}', [ProductController::class, 'read'])->name('prod
 Route::post('/product', [ProductController::class, 'create'])->name('product-create');
 Route::put('/product', [ProductController::class, 'update'])->name('product-update');
 Route::delete('/product/{product}', [ProductController::class, 'delete'])->name('product-delete');
+
+// VARIATIONS
+Route::get('/variations', [VariationController::class, 'showAll']);
+Route::get('/variation/{variation}', [VariationController::class, 'show']);
+Route::post('/variation', [VariationController::class, 'create']);
+Route::put('/variation', [VariationController::class, 'update']);
+Route::delete('/variation/{variation}', [VariationController::class, 'delete']);
