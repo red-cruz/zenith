@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ShopAddressController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\UserAddressController;
 use App\Http\Controllers\UserController;
@@ -63,6 +64,10 @@ Route::get('/shop/{shop}', [ShopController::class, 'index'])->name('shop');
 Route::post('/shop', [ShopController::class, 'create']);
 Route::put('/shop', [ShopController::class, 'update']);
 Route::delete('/shop/{shop}', [ShopController::class, 'delete']);
+
+// SHOP ADDRESS
+Route::put('/shopAddress', [ShopAddressController::class, 'update']);
+Route::delete('/shopAddress/{shopAddress}', [ShopAddressController::class, 'delete']);
 
 // PRODUCT
 Route::get('/shop/{shop}/product/{product}', [ProductController::class, 'index'])->name('product');

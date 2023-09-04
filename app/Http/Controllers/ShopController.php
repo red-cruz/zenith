@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Shop;
+use App\Models\ShopAddress;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,18 +29,32 @@ class ShopController extends Controller
               'name' => ['required', 'string', 'min:3', 'max:255'],
               'description' => ['required', 'string'],
               'pfp' => ['nullable', 'file'],
-              'cover' => ['nullable', 'file']
+              'cover' => ['nullable', 'file'],
+              'address' => ['required', 'string'],
+              'street' => ['required', 'string'],
+              'city' => ['required', 'string'],
+              'state' => ['required', 'string'],
+              'zip_code' => ['required', 'string', 'max:10'],
             ]);
 
             $shop = new Shop();
             $shop->user_id = Auth::id();
             $shop->name = $validated['name'];
             $shop->description = $validated['description'];
-
             $shop->saveOrFail();
 
+            $address = new ShopAddress();
+            $address->shop_id = $shop->id;
+            $address->address = $validated['address'];
+            $address->street = $validated['street'];
+            $address->city = $validated['city'];
+            $address->state = $validated['state'];
+            $address->zip_code = $validated['zip_code'];
+            $address->saveOrFail();
+
             return response()->json([
-              'message' => 'successfully created'
+              'message' => 'successfully created',
+              'shop' => $shop->shopAddress
             ]);
         });
     }
