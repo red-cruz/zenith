@@ -18,6 +18,7 @@ return new class () extends Migration {
             $table->string('pfp_url')->default('shop-profile.png');
             $table->string('cover_url')->default('shop-cover.png');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

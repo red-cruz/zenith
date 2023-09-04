@@ -64,6 +64,8 @@ Route::get('/shop/{shop}', [ShopController::class, 'index'])->name('shop');
 Route::post('/shop', [ShopController::class, 'create']);
 Route::put('/shop', [ShopController::class, 'update']);
 Route::delete('/shop/{shop}', [ShopController::class, 'delete']);
+Route::patch('/shop/{shop}/restore', [ShopController::class, 'restore'])->name('shop-restore');
+Route::delete('/shop/{shop}/delete-permanent', [ShopController::class, 'forceDelete'])->name('shop-force-delete');
 
 // PRODUCT
 Route::get('/shop/{shop}/product/{product}', [ProductController::class, 'index'])->name('product');

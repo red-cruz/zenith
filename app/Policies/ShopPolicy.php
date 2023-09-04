@@ -34,23 +34,27 @@ class ShopPolicy
     public function delete(User $user, Shop $shop): Response
     {
         return $user->id === $shop->user_id
-          ? Response::allow('allowed')
+          ? Response::allow()
           : Response::deny('You don\'t own this shop.');
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Shop $shop): bool
+    public function restore(User $user, Shop $shop): Response
     {
-        return true;
+        return $user->id === $shop->user_id
+          ? Response::allow()
+          : Response::deny('You don\'t own this shop.');
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Shop $shop): bool
+    public function forceDelete(User $user, Shop $shop): Response
     {
-        return true;
+        return $user->id === $shop->user_id
+          ? Response::allow()
+          : Response::deny('You don\'t own this shop.');
     }
 }

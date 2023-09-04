@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Shop;
 use App\Models\ShopAddress;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -110,6 +111,35 @@ class ShopController extends Controller
 
             return response()->json([
               'message' => 'Successfully deleted',
+              'shop' => $shop,
+            ]);
+        });
+    }
+
+    public function restore($shop_id): JsonResponse
+    {
+        return Utils::tryCatch(function () use ($shop_id): JsonResponse {
+            $shop = Shop::withTrashed()->findOrFail($shop_id);
+            Gate::authorize('shop-restore', $shop);
+
+            $shop->restore();
+
+            return response()->json([
+              'message' => 'Successfully restored',
+              'shop' => $shop,
+            ]);
+        });
+    }
+
+    public function forceDelete(Shop $shop): JsonResponse
+    {
+        return Utils::tryCatch(function () use ($shop) {
+            Gate::authorize('shop-delete-permanent', $shop);
+
+            $shop->forceDelete();
+
+            return response()->json([
+              'message' => 'Successfully deleted permanently',
               'shop_id' => $shop->id,
             ]);
         });
