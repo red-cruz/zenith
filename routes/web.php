@@ -53,6 +53,9 @@ Route::middleware(['auth'])->group(function () {
 // CATEGORY
 Route::get('/categories', [CategoryController::class, 'showAll']);
 Route::get('/category/{category}', [CategoryController::class, 'show']);
+Route::post('/category', [CategoryController::class, 'create']);
+Route::put('/category', [CategoryController::class, 'update']);
+Route::delete('/category/{category}', [CategoryController::class, 'delete']);
 
 // USER
 Route::get('/user/{user}', [UserController::class, 'read']);

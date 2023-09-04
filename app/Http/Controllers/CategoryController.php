@@ -38,7 +38,7 @@ class CategoryController extends Controller
 
             return response()->json([
               'message' => 'successfully added a category',
-              $category
+              'category' => $category
             ]);
         });
     }
@@ -72,35 +72,6 @@ class CategoryController extends Controller
             return response()->json([
               'message' => 'Successfully deleted',
               'category' => $category,
-            ]);
-        });
-    }
-
-    public function restore($shop_id): JsonResponse
-    {
-        return Utils::tryCatch(function () use ($shop_id): JsonResponse {
-            $shop = Shop::withTrashed()->findOrFail($shop_id);
-            Gate::authorize('shop-restore', $shop);
-
-            $shop->restore();
-
-            return response()->json([
-              'message' => 'Successfully restored',
-              'shop' => $shop,
-            ]);
-        });
-    }
-
-    public function forceDelete(Shop $shop): JsonResponse
-    {
-        return Utils::tryCatch(function () use ($shop) {
-            Gate::authorize('shop-delete-permanent', $shop);
-
-            $shop->forceDelete();
-
-            return response()->json([
-              'message' => 'Successfully deleted permanently',
-              'shop_id' => $shop->id,
             ]);
         });
     }
