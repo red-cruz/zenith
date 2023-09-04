@@ -52,9 +52,11 @@ class ShopController extends Controller
             $address->zip_code = $validated['zip_code'];
             $address->saveOrFail();
 
+            $shop->shopAddress;
+
             return response()->json([
               'message' => 'successfully created',
-              'shop' => $shop->shopAddress
+              'shop' => $shop
             ]);
         });
     }
