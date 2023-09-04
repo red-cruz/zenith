@@ -103,3 +103,9 @@ Route::get('/variation/{variation}', [VariationController::class, 'show']);
 Route::post('/variation', [VariationController::class, 'create']);
 Route::put('/variation', [VariationController::class, 'update']);
 Route::delete('/variation/{variation}', [VariationController::class, 'delete']);
+
+// VARIATION OPTIONS
+Route::get('/variation/{variation}/option/{variationOption}', [VariationController::class, 'show']);
+Route::post('/variation/option', [VariationController::class, 'create']);
+Route::put('/variation/option', [VariationController::class, 'update']);
+Route::delete('/variation/option/{variationOption}', [VariationController::class, 'delete']);

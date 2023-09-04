@@ -10,14 +10,19 @@ use Illuminate\Support\Facades\Gate;
 
 class ProductController extends Controller
 {
-    public function index(Shop $shop, Product $product): JsonResponse
+    public function index($shop_id, $product_id): JsonResponse
     {
-        $product->variations;
+        $product = Product::with('variations')
+            ->where([
+              ['shop_id', $shop_id],
+              ['id', $product_id]
+            ])->firstOrFail();
+
         $product['category'] = $product->category();
         $product['category']->parentCategory;
 
         return response()->json([
-          'product' => $product
+          'product' => $product,
         ]);
     }
 
