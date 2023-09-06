@@ -11,6 +11,7 @@ use App\Http\Controllers\UserAddressController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VariationController;
 use App\Http\Controllers\VariationOptionController;
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -34,8 +35,19 @@ Route::middleware(['guest'])->group(function () {
     Route::get('/login', [AuthController::class, 'index'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
     // SIGN UP
-    Route::post('/signup', [UserController::class, 'create']);
+    Route::post('/register', [UserController::class, 'create']);
 });
+
+// HOME
+Route::get('/', function () {
+    $products = Product::all();
+    foreach ($products as $product) {
+        $product->ratings;
+        $product->price_percentage_diff;
+    }
+    // dd($products);
+    return Inertia::render('MyHome', ['products' => $products]);
+})->name('home');
 
 Route::middleware(['auth'])->group(function () {
 
@@ -44,10 +56,6 @@ Route::middleware(['auth'])->group(function () {
 
     });
 
-    // HOME
-    Route::get('/', function () {
-        return Inertia::render('MyHome', ['testdata' => 'd']);
-    })->name('home');
 
     // LOGOUT
     Route::get('/logout', [AuthController::class, 'logout']);

@@ -7,6 +7,8 @@ import * as directives from "vuetify/directives";
 import { createApp, h } from "vue";
 import { createInertiaApp } from "@inertiajs/vue3";
 import "./config/vts.config";
+import Auth from "./Layouts/AuthLayout.vue";
+import Layout from "./Layouts/HomeLayout.vue";
 
 const vuetify = createVuetify({
     components,
@@ -15,7 +17,9 @@ const vuetify = createVuetify({
 createInertiaApp({
     resolve: (name) => {
         const pages = import.meta.glob("./Pages/**/*.vue", { eager: true });
-        return pages[`./Pages/${name}.vue`];
+        let page = pages[`./Pages/${name}.vue`];
+        page.default.layout = name.startsWith("Auth/") ? Auth : Layout;
+        return page;
     },
     setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })
